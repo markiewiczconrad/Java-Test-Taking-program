@@ -1,49 +1,72 @@
-/*
- * Name: Kashyapkumar Trivedi
- *  CS Account: ktrivedi
- * Net Id: ktrive4
- * Assignment: Third Homework Assignment
- * UIN: 660657541
- */
-import java.io.PrintWriter;
-import java.util.Scanner;
+//Conrad Markiewicz
+//cmarki3
+//CS342
+//HW #4
+//Group Members: Kashyapkumar Trivedi & Jay Patel
 
-public class SAAnswer extends Answer
-{
-	protected String text; //Protected String 
-	
-	SAAnswer(String te)
+import java.util.Scanner;
+import java.io.PrintWriter;
+
+public class SAAnswer extends Answer{
+	protected String description;
+	public SAAnswer() {}
+	public SAAnswer(String d)
 	{
-		
-		text = te; //This initialize it
+		description = d;
 	}
-	public SAAnswer(Scanner saans)
+	//DONE: Input constructor
+	public SAAnswer(Scanner input)
 	{
-		
+		description = input.nextLine();
+	}
+	public SAAnswer(SAAnswer a)
+	{
+		description = a.description;
+	}
+	public SAAnswer clone()
+	{
+		SAAnswer temp = new SAAnswer(this);
+		return temp;
 	}
 	public void print()
 	{
-		System.out.println(" " + text);     //This will print out the text
+		System.out.println(description);
 	}
-	public double getCredit(Answer rightAnswer) //This function will get the credit if it equals
+	//DONE: Check to make sure it's working in accordance with HW#3
+	public double getCredit(Answer rightAnswer)
 	{
-		if(rightAnswer instanceof SAAnswer)   //This checks it
+		if (rightAnswer instanceof SAAnswer)
 		{
-			SAAnswer saas = (SAAnswer) rightAnswer;              
-			if(text.equalsIgnoreCase(saas.text)) //Check if the strings are equal
+			String temp_d = description.toLowerCase();
+			if (temp_d.equals(((SAAnswer)rightAnswer).getDescription().toLowerCase()) == true)
 			{
-				
-				return 1; //If equal then return 1
+				return 1.0;
 			}
-			
+			else
+				return 0.0;
 		}
-		
-		return 0; //return 0 otherwise
+		else
+			return 0.0;
 	}
-	
-	public void save(PrintWriter ans)
+	public double getValue()
 	{
-		ans.print(text); //save it
+		return 1.0;
 	}
-	
+	public String getDescription()
+	{
+		return description;
+	}
+	public void setSelected(boolean s)
+	{
+		System.out.println("This method is for use with multiple-choice questions, please try again.");
+	}
+	//DONE: save method
+	public void save(PrintWriter output)
+	{
+		output.println(description);
+	}
+	public void setDescription(String in)
+	{
+		description = in;
+	}
 }

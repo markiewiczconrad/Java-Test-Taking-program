@@ -1,89 +1,111 @@
-/*
- * Name: Kashyapkumar Trivedi
- *  CS Account: ktrivedi
- * Net Id: ktrive4
- * Assignment: Third Homework Assignment
- * UIN: 660657541
- */
-import java.io.PrintWriter;
-import java.util.Scanner;
+//Conrad Markiewicz
+//cmarki3
+//CS342
+//HW #4
+//Group members: Kashyapkumar Trivedi & Jay Patel
 
-public class SAQuestion extends Question
-{
-	
-	Answer getNewAnswerSA1, getNewAnswerSA2; //Objects for the Answer Class
-	private double getVSAQ; //For the get val
-	private String sTringForSAQ;
-	
-	
-	public SAQuestion(String text, double maxValue)  //Public constructor
+import java.util.Scanner;
+import java.io.PrintWriter;
+
+public class SAQuestion extends Question{
+	protected SAAnswer rightAnswer;
+	protected SAAnswer studentAnswer;
+	public SAQuestion() {}
+	public SAQuestion(String d)
 	{
-		super(text, maxValue); //Sets the string and the douyble
-		
-		fordouble = maxValue; //Sets it to the double
+		text = d;
+		maxValue = 1.0;
 	}
-	public SAQuestion(Scanner quesFile) 
+	public SAQuestion(String d, double mVal)
 	{
-		  super(quesFile);
-		  
-		  SAQuestion saques;
-		  SAAnswer saans;
-		  
-		  
-		  saques = new SAQuestion(text, maxValue); //for the new SAQuestion
-		 
-		  sTringForSAQ =  quesFile.nextLine();
-		  
-		  saans = (SAAnswer) saques.getNewAnswer(sTringForSAQ);
-		  
-		  saques.setRightAnswers(saans);
-		 
+		text = d;
+		maxValue = mVal;
 	}
-	
-	
+	//DONE: Input constructor
+	public SAQuestion(Scanner input)
+	{
+		if (input.hasNextDouble())
+			maxValue = input.nextDouble();
+		else
+			maxValue = 0.0;
+		text = input.next() + input.nextLine();
+		rightAnswer = new SAAnswer(input);
+	}
+	public SAQuestion(SAQuestion q)
+	{
+		text = q.text;
+		if (q.rightAnswer != null)
+			rightAnswer = q.rightAnswer.clone();
+		if (q.studentAnswer != null)
+			studentAnswer = q.studentAnswer.clone();
+		maxValue = q.maxValue;
+	}
+	public SAQuestion clone()
+	{
+		return new SAQuestion(this);
+	}
+	public void print()
+	{
+		System.out.println(text);
+		System.out.print("\t\t");
+		System.out.print("Current answer: ");
+		if (studentAnswer != null)
+		{
+			System.out.println(studentAnswer.getDescription());
+		}
+		else
+		{
+			System.out.println("None");
+		}
+	}
 	public Answer getNewAnswer()
 	{
-		getNewAnswerSA1 = new SAAnswer(" "); //Gets the new Answer from the student
-		return getNewAnswerSA1;
+		return new SAAnswer();
 	}
-	
-	
-	
-	public Answer getNewAnswer(String text)
+	public Answer getNewAnswer(String d)
 	{
-		getNewAnswerSA2 = new SAAnswer(text); //Gets the new Answer from the student with string
-		return getNewAnswerSA2;
+		return new SAAnswer(d);
 	}
-	
-	
-	
+	//DONE: Get this thing working with the keyboardscanner
 	public void getAnswerFromStudent()
 	{
-		System.out.println("\nEnter Short Answer\n"); //Gets the Ans from the Student for the SA Question
-		Scanner getAnsFromStudentSAQ = new Scanner(System.in);  //User Input
-		String message = getAnsFromStudentSAQ.nextLine();
-		studentAnswer = new SAAnswer(message);  //Sets the string to the student Answer
+		Scanner input = ScannerFactory.getKeyboardScanner();
+		System.out.println("Please enter your answer:");
+		String in = input.nextLine();
+		if (studentAnswer == null)
+			studentAnswer = new SAAnswer(in);
+		else
+			studentAnswer.setDescription(in);
+		System.out.println("Your answer is now " + studentAnswer.getDescription());
 	}
-	
-	
-	public double getValue() //Gets the val and returns it
+	public void reorderAnswers()
 	{
-		getVSAQ = studentAnswer.getCredit(rightAnswer);  //Gets the val according to the studentAns
-		
-		return getVSAQ * fordouble; //Returns the value * By the points of the options
+		System.out.println("Answer reordered!");
 	}
-	public void save(PrintWriter writeInFile) 
+	public double getValue()
 	{
-		writeInFile.print("\n"); //Print one by one
-	
-		writeInFile.print(text);
-		
-		writeInFile.print("\n");
-		
-		writeInFile.print(sTringForSAQ);
-		
-		writeInFile.print("\n");
+		return studentAnswer.getCredit(rightAnswer) * maxValue;
+	}
+	//DONE: Save method
+	public void save(PrintWriter output)
+	{
+		output.println("SAQuestion");
+		output.print(maxValue);
+		output.println();
+		output.println(text);
+		rightAnswer.save(output);
+		output.println();
+	}
+	public void saveStudentAnswer(PrintWriter output)
+	{
+		if (studentAnswer == null) return;
+		output.println("SAAnswer");
+		output.println(studentAnswer.getDescription());
+		output.println();
 	}
 	
+	public void restoreStudentAnswer(Scanner input)
+	{
+		studentAnswer = new SAAnswer(input.nextLine());
+	}
 }
-

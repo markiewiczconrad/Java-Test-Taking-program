@@ -1,55 +1,69 @@
-/*
- * Name: Kashyapkumar Trivedi
- *  CS Account: ktrivedi
- * Net Id: ktrive4
- * Assignment: Third Homework Assignment
- * UIN: 660657541
- */
-import java.io.PrintWriter;
+//Conrad Markiewicz
+//cmarki3
+//CS342
+//HW #4
+//Group Members: Kashyapkumar Trivedi & Jay Patel
+
 import java.util.Scanner;
+import java.io.PrintWriter;
 
-
-public abstract class MCAnswer extends Answer 
-{
-	protected String text; //For constructor
-	protected boolean selected; //To check if its selected
-	protected boolean check; //To check 
-	protected double creditifSelected; //Credit given only if its selected
-	protected double pap; //For the double value in the Constuctor
-	
-	
-	protected MCAnswer(String mcan, double dmcan) //This is the protected constructor that initialize text, dmcan, and selected
+public abstract class MCAnswer extends Answer{
+	protected String description;
+	protected double credit;
+	protected boolean selected;
+	protected MCAnswer() {}
+	protected MCAnswer(String d)
 	{
-		text = mcan; //Sets the string
-	
-		this.pap = dmcan; //Sets the double
-		
-		check = false; //Set to the false in the beginning
+		description = d;
+		selected = false;
 	}
-	public MCAnswer(Scanner mcans)
+	protected MCAnswer(String d, double cred)
 	{
-		super(mcans); //from the parents
+		description = d;
+		selected = false;
+		credit = cred;
 	}
-	public void print() //Will print the MCAnswer
+	//DONE: Input constructor
+	public MCAnswer(Scanner input)
 	{
-		System.out.println(" " + text);	//puts the answer string Ex) "A. bla bla bla
-		
-		System.out.println(" ");
-    	}
-
-	public void setSelected(boolean sS) //This will check if its selected
-	{
-		check = selected;        //It will set equal to false
+		if (input.hasNextDouble())
+			credit = input.nextDouble();
+		else
+			credit = 0.0;
+		description = input.nextLine();
+		description.substring(1);
+		selected = false;
 	}
-
-	public double getCredit(Answer rightAnswer) 
+	public void print()
 	{
+		System.out.println(description);
+	}
+	public abstract double getCredit(Answer a);
+	public void setSelected(boolean s)
+	{
+		selected = s;
+	}
+	public String getDescription()
+	{
+		return description;
+	}
+	//DONE: Save method
+	public void save(PrintWriter output)
+	{
+		output.print(credit);
+		output.print(' ');
+		output.println(description);
+	}
+	public boolean getSelected()
+	{
+		return selected;
+	}
+	public double getValue()
+	{
+		if (selection == true)
+		{
+			return credit;
+		}
 		return 0.0;
-	}
-	
-	public void save(PrintWriter writeInFile) 
-	{
-		writeInFile.print(text); //write
-		writeInFile.print("\n"); //do the spacing
 	}
 }

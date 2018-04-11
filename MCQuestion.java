@@ -2,7 +2,8 @@
  * Name: Kashyapkumar Trivedi
  *  CS Account: ktrivedi
  * Net Id: ktrive4
- * Assignment: Third Homework Assignment
+ * Assignment: Fourth Homework Assignment
+ * Group Members: Conrad Markiewicz & Jay Patel
  * UIN: 660657541
  */
 
@@ -17,6 +18,7 @@ public abstract class MCQuestion extends Question //Extends because it has sub t
 	
 	protected ArrayList<MCAnswer>questions2 = new ArrayList<MCAnswer>(); //Protected arraylist of type MCAnswer
 	
+	public MCQuestion() {}
 	
 	public  MCQuestion(String text, double maxValue) 
 	{

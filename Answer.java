@@ -3,6 +3,7 @@
  *  CS Account: ktrivedi
  * Net Id: ktrive4
  * Assignment: Fourth Homework Assignment
+ * Group members: Conrad Markiewicz & Jay Patel
  * UIN: 660657541
  */
 
@@ -14,8 +15,7 @@ import java.util.*;
 
 public abstract class Answer      //We have to declare it as an abstract class since it has sub trees
 {
-	
-	private boolean selection = false;  //First sets it equal to false
+	protected boolean selection = false;  //First sets it equal to false
 	
 	
 	protected Answer() //private constructor

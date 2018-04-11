@@ -3,6 +3,7 @@
  *  CS Account: ktrivedi
  * Net Id: ktrive4
  * Assignment: Fourth Homework Assignment
+ * Group members: Conrad Markiewicz & Jay Patel
  * UIN: 660657541
  */
 
@@ -23,12 +24,12 @@ public  abstract class Question
 	protected double maxValue; //for the double
 	protected double fordouble; //for the double
 	
+	public Question() {}
 	
 	public Question(String message, double maxValue) //public constructor for the string and the double
 	{
 		this.text = message; //Sets the string
 		this.fordouble = maxValue; //Sets the double
-		
 	}
 	
 	public Question(Scanner quesFile)
@@ -62,11 +63,11 @@ public  abstract class Question
 	public abstract double getValue(); //Abstract since method gets implemented in the sub tree
 	public abstract void save(PrintWriter writeInFile);
 	
-	public void saveStudentAnswers(PrintWriter writeInFile)
+	public void saveStudentAnswer(PrintWriter writeInFile)
 	{
 		studentAnswer.save(writeInFile);
 	}
-	public void restoreStudentAnswers(Scanner fileScan) 
+	public void restoreStudentAnswer(Scanner fileScan) 
 	{
 		
 	}

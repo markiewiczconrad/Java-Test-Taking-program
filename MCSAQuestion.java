@@ -1,138 +1,153 @@
-/*
- * Name: Kashyapkumar Trivedi
- *  CS Account: ktrivedi
- * Net Id: ktrive4
- * Assignment: Third Homework Assignment
- * UIN: 660657541
- */
-import java.io.PrintWriter;
+//Conrad Markiewicz
+//cmarki3
+//CS342
+//HW #4
+//Group Members: Kashyapkumar Trivedi & Jay Patel
+
 import java.util.Scanner;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
-public class MCSAQuestion extends MCQuestion //Extends since it has a subtree
-{
-	Answer getNewAnswer1, getNewAnswer2, getNewAnswer3; //Objects of typpe Answer
-	
-	private static double getV; //Static double for the get value
-	
-	private double compareStringDoubleMCSAQ;
-	
-	public MCSAQuestion(String message, double maxValue) 
+public class MCSAQuestion extends MCQuestion{
+	protected MCSAAnswer rightAnswer;
+	protected MCSAAnswer studentAnswer;
+	public MCSAQuestion() {super();}
+	public MCSAQuestion(String d)
 	{
-		super(message, maxValue);	 //Sets the string and the double
+		text = d;
+		maxValue = 1.0;
 	}
-	
-	public MCSAQuestion(Scanner quesFile) 
-	{		
-		super(quesFile);
+	public MCSAQuestion(String d, double mVal)
+	{
+		text = d;
+		maxValue = mVal;
+	}
+	//DONE: Input constructor
+	public MCSAQuestion(Scanner input)
+	{
+		//Gets the description and max values from the input
+		super(input);
 		
-		String sMCSAQ1;
+		//get the number of choices, if provided, else
+		int choices = 0;
+		if (input.hasNextInt())
+			choices = input.nextInt();
+		else
+			choices = 26;
 		
-		sMCSAQ1 = quesFile.nextLine();
+		//Parse the file until the number of choices or a blank line has been reached
+		for (int i = 0; i < choices && input.hasNextLine(); i++)
+			this.addAnswer(new MCSAAnswer(input));
 		
-		compareStringDoubleMCSAQ = Double.parseDouble(sMCSAQ1); //to convert from string to double 
-		 		
-		int i = 0;
-		 
-		while( i < compareStringDoubleMCSAQ) //check through the whole array
+	}
+	public MCSAQuestion(MCSAQuestion q)
+	{
+		text = q.text;
+		if (q.rightAnswer != null)
+			rightAnswer = new MCSAAnswer(q.rightAnswer);
+		if (q.studentAnswer != null)
+			studentAnswer = new MCSAAnswer(q.studentAnswer);
+		maxValue = q.maxValue;
+		questions2 = new ArrayList<MCAnswer>();
+		for (int i = 0; i < questions2.size(); i++)
 		{
-			MCAnswer fornewMCA;
-			
-			double changedtoS;
-			
-			String MCSAQuesFile, s;
-			
-			MCSAQuesFile = quesFile.nextLine(); //check the next space
-			
-			s = MCSAQuesFile;
-			 
-			String toSplit[] = s.split(" "); //split it
-			
-			changedtoS = Double.parseDouble(toSplit[0]);
-			
-			String AnswerText = "";
-			
-			for(int j = 1;j < toSplit.length;j++) 
+			MCSAAnswer temp_b = new MCSAAnswer((MCSAAnswer)q.questions2.get(i));
+			questions2.add(temp_b);
+		}
+	}
+	public MCSAQuestion clone()
+	{
+		return new MCSAQuestion(this);
+	}
+	public Answer getNewAnswer()
+	{
+		return new MCSAAnswer();
+	}
+	public Answer getNewAnswer(String d, double creditIfSelected)
+	{
+		return new MCSAAnswer(d, creditIfSelected);
+	}
+	//DONE: Get this thing working with the scannerfactory class
+	public void getAnswerFromStudent()
+	{
+		boolean done = false;
+		Scanner input = ScannerFactory.getKeyboardScanner();
+		System.out.print("Please choose your answer: ");
+		char choice = input.next().charAt(0);
+		input.nextLine();
+		while (done == false)
+		{
+			if (choice >= 'A' && choice <= 'Z' && ((int)choice - 65) < questions2.size() && ((int)choice - 65) >= 0)
 			{
-				  AnswerText += toSplit[j]+" "; //do the split
+				studentAnswer = (MCSAAnswer)questions2.get((int)choice - 65);
+				studentAnswer.setSelected(true);
+				for (int i = 0; i < questions2.size() && questions2.get(i).equals(studentAnswer) == false; i++)
+					questions2.get(i).setSelected(false);
+				done = true;
 			}
-			
-			fornewMCA = new MCSAAnswer(AnswerText,changedtoS);
-			
-			addAnswer(fornewMCA);  //add the ans
-			
-			i++; //increment the i
-			
+			else if (choice >= 'a' && choice <= 'z' && ((int)choice - 97) < questions2.size() && ((int)choice - 97) >= 0)
+			{
+				studentAnswer = (MCSAAnswer)questions2.get((int)choice - 97);
+				studentAnswer.setSelected(true);
+				for (int i = 0; i < questions2.size() && questions2.get(i).equals(studentAnswer) == false; i++)
+					questions2.get(i).setSelected(false);
+				done = true;
+			}
+			else
+			{
+				System.out.print("Invalid choice made, please make a valid choice:");
+				choice = input.next().charAt(0);
+			}
 		}
-	
+		System.out.print("Your answer is: ");
+		studentAnswer.print();
 	}
-
-	public Answer getNewAnswer() 
+	public double getValue()
 	{
-		getNewAnswer1 = new MCSAAnswer("",0); //Gets the new ans and returns it
-	
-		return getNewAnswer1;
+		return studentAnswer.getValue() * maxValue;
 	}
-	
-	public Answer getNewAnswer(String message) 
+	//DONE: getValue(MCAnswer a)
+	public double getValue(MCAnswer a)
 	{
-		getNewAnswer2 = new MCSAAnswer(message, 0);		//Gets the new ans and returns it with string
-		
-		return getNewAnswer2 ;
+		return super.getValue(a);
 	}
-
-	public Answer getNewAnswer(String message, double creditIfSelected) 
+	//DONE: save method
+	public void save(PrintWriter output)
 	{
-		getNewAnswer3 = new MCSAAnswer(message, creditIfSelected);	//Gets the new ans and returns it with string and double 
-	
-		return getNewAnswer3;
-	}
-	
-	public void getAnswerFromStudent()  //Gets the answer from the student
-	{
-		
-		System.out.println("Enter the Answer for Multiple Choice: \n");
-	
-		Scanner readerInAnswer = new Scanner(System.in); //User Input
-		
-		char userAnswer;
-		
-		userAnswer = readerInAnswer.next().charAt(0);
-		
-		switch(userAnswer)
+		output.println("MCSAQuestion");
+		output.print(maxValue);
+		output.println();
+		output.println(text);
+		output.print(questions2.size());
+		output.println();
+		for (int i = 0; i < questions2.size(); i++)
 		{
-			case 'A': studentAnswer = questions2.get(0); //check if its capital and small letters to get the question 
-			case 'a': studentAnswer = questions2.get(0);
-			case 'b': studentAnswer = questions2.get(1);
-			case 'B': studentAnswer = questions2.get(1);
-			case 'C': studentAnswer = questions2.get(2);
-			case 'c': studentAnswer = questions2.get(2);
-			case 'd': studentAnswer = questions2.get(3);
-			case 'D': studentAnswer = questions2.get(3);
-			case 'E': studentAnswer = questions2.get(4);
-			case 'e': studentAnswer = questions2.get(4);
+			questions2.get(i).save(output);
 		}
-		
+		output.println();
+	}
+	//DONE: restoreStudentAnswer(Scanner)
+	public void restoreStudentAnswer(Scanner input)
+	{
+		if (studentAnswer == null)
+		{
+			String check = input.nextLine();
+			for (int i = 0; i < questions2.size(); i++)
+			{
+				if (check.equals(questions2.get(i).getDescription()))
+				{
+					studentAnswer = (MCSAAnswer)questions2.get(i);
+				}
+			}
+		}
 	}
 	
-	public double getValue() //Gets the value from the student ans
+	//DONE: saveStudentAnswer(PrintWriter)
+	public void saveStudentAnswer(PrintWriter output)
 	{
-		getV= studentAnswer.getCredit(null); //Gets the val
-		
-		return getV * fordouble; //Return it and * with the points for the questions
-	}
-	public void save(PrintWriter writeInFile) 
-	{
-		super.save(writeInFile); //from the parents
-		writeInFile.print("\n");
-		writeInFile.print(compareStringDoubleMCSAQ);
-		writeInFile.print("\n");
-		int i = 0;
-		while(i < questions2.size())
-		{
-			questions2.get(i).save(writeInFile); //to write according to the question
-			writeInFile.print("\n");
-			i++; //increment
-		}
+		if (studentAnswer == null) return;
+		output.println("MCSAAnswer");
+		output.println(studentAnswer.getDescription());
+		output.println();
 	}
 }
-

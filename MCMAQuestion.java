@@ -1,174 +1,185 @@
-/*
- * Name: Kashyapkumar Trivedi
- *  CS Account: ktrivedi
- * Net Id: ktrive4
- * Assignment: Third Homework Assignment
- * UIN: 660657541
- */
+//Conrad Markiewicz
+//cmarki3
+//CS342
+//HW #4
+//Group members: Kashyapkumar Trivedi & Jay Patel
+
+import java.util.Scanner;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class MCMAQuestion extends MCQuestion 
-{
-	protected double leastCredit;
-	protected double ansoftheirNum;
-	protected double score = 0;
-	protected ArrayList<Answer> answerForStudent = new ArrayList<Answer>();	
-	
-	
-	MCMAQuestion(String text, double maxValue, double bCredit)
-	{
-		super(text, maxValue);
-		maxValue = maxValue;
-		bCredit = leastCredit;
-		score = 0;
-	}
-	
-	
-	public MCMAQuestion(Scanner writeInFile) 
-	{
-		super(writeInFile);
-		
-		  String  examTitle = writeInFile.nextLine(); //make string variable to the next line
-		  leastCredit = Double.parseDouble(examTitle); //to change from double to string
-	
-		  examTitle = writeInFile.nextLine(); //write in the file
-		  ansoftheirNum = Double.parseDouble(examTitle); //to change from double to string
-		
-		  String mcmaQuestion = writeInFile.nextLine();
-		 
-		  int i = 0;
-		  
-		  while(i < ansoftheirNum) //check through whoile arrry
-		  {
-			  String mcQuestion = mcmaQuestion;
-			  
-			  String splitStrd[] = mcQuestion.split(" "); //split it
-			  
-			  double y = Double.parseDouble(splitStrd[0]);
-			  
-			  String AnswerText = "";
-			  for(int j = 1;j < splitStrd.length;j++) 
-			  {
-				  AnswerText += splitStrd[j]+" "; //split for the text
-			  }
-			
-			  MCAnswer a1 = new MCMAAnswer(AnswerText, y);
-			
-			  addAnswer(a1); //add the ans
-			  
-			  if(writeInFile.hasNextLine())
-			  {
-				  mcmaQuestion = writeInFile.nextLine(); //check if it next line
-			  }
-			  i++; //increment the i
-		  }
-		  
-	}
+public class MCMAQuestion extends MCQuestion {
+	protected double base;
+	protected MCMAAnswer rightAnswer;
+	protected MCMAAnswer studentAnswer;
 
-	public Answer getNewAnswer(){
-		Answer f1 = new MCMAAnswer("",0);
-		return f1;
-	}
-	
-	public Answer getNewAnswer(String s, double creditIfSelected) {
-		Answer f3 = new MCMAAnswer(s, creditIfSelected);	
-		return f3;
-	}
-	
-	public void getAnswerFromStudent() 
+	//DONE: Constructors
+	public MCMAQuestion(String d, double mVal, double b)
 	{
-		int getA = 0;
-		while( getA != 1) 
+		super(d, mVal);
+		base = b;
+	}
+	public MCMAQuestion(Scanner input)
+	{
+		super(input);
+		int choices = 0;
+		if(input.hasNextDouble())
+			base = input.nextDouble();
+		else
+			base = 0.0;
+		if(input.hasNextInt())
+			choices = input.nextInt();
+		else
+			choices = 26;
+		for (int i = 0; i < choices && input.hasNextLine(); i++)
+			this.addAnswer(new MCMAAnswer(input));
+	}
+	public MCMAQuestion(MCMAQuestion q)
+	{
+		text = q.text;
+		if (q.rightAnswer != null)
+			rightAnswer = new MCMAAnswer(q.rightAnswer);
+		if (q.studentAnswer != null)
+			studentAnswer = new MCMAAnswer(q.studentAnswer);
+		maxValue = q.maxValue;
+		base = q.base;
+		questions2 = new ArrayList<MCAnswer>();
+		for (int i = 0; i < questions2.size(); i++)
 		{
-			System.out.println("Note: Enter Y when you want to exit\n");	
-			System.out.println("For MCMA Question, provide a letter please: \n");	   
-			Scanner keyboard = ScannerFactory.getKeyboard();
-			char input = keyboard.next().charAt(0);
-			
-			switch(input)
+			MCMAAnswer temp_a = new MCMAAnswer(q.questions2.get(i));
+			questions2.add(temp_a);
+		}
+	}
+	
+	public Answer getNewAnswer()
+	{
+		return new MCMAAnswer();
+	}
+	public Answer getNewAnswer(String d, double b)
+	{
+		return new MCMAAnswer(d, b);
+	}
+	
+	//DONE: getValue(Answer)
+	public double getValue(MCAnswer a) {
+		double total = 0.0;
+		for (int i = 0; i < questions2.size(); i++)
+			total = total + super.getValue(a);
+		return total + base;
+	}
+
+	//DONE: save(PrintWriter)
+	public void save(PrintWriter output)
+	{
+		output.println("MCMAQuestion");
+		output.print(maxValue);
+		output.println();
+		output.println(text);
+		output.print(base);
+		output.println();
+		output.print(questions2.size());
+		output.println();
+		for(int i = 0; i < questions2.size();i++)
+			questions2.get(i).save(output);
+		output.println();
+	}
+	
+	//DONE: saveStudentAnswer method
+	public void saveStudentAnswer(PrintWriter output)
+	{
+		int scount = 0;
+		for (int i = 0; i < questions2.size(); i++)
+		{
+			if (((MCAnswer)questions2.get(i)).getSelected())
+				scount++;
+		}
+		if (scount == 0) return;
+		output.println("MCMAAnswer");
+		output.println(scount);
+		for (int i = 0; i < questions2.size(); i++)
+		{
+			if (((MCAnswer)questions2.get(i)).getSelected())
+				output.println(questions2.get(i).getDescription());
+		}
+		output.println();
+	}
+	
+	//DONE: restoreStudentAnswer method
+	public void restoreStudentAnswer(Scanner input)
+	{
+		int scount = input.nextInt();
+		input.nextLine();
+		for (int i = 0; i < scount; i++)
+		{
+			String check = input.nextLine();
+			for (int j = 0; j < questions2.size(); j++)
 			{
-			case 'A': answerForStudent.add(questions2.get(0)); //check if its 'a' and add question 
-								  break;
-			case 'a': answerForStudent.add(questions2.get(0)); //check and add question
-			  					  break;
-			case 'B': answerForStudent.add(questions2.get(1));
-								  break;
-			case 'b': answerForStudent.add(questions2.get(1));
-			  					  break;
-			case 'C': answerForStudent.add(questions2.get(2));
-								  break;
-			case 'c': answerForStudent.add(questions2.get(2));
-			  					  break;
-			case 'D': answerForStudent.add(questions2.get(3));
-			                      break;
-			case 'd': answerForStudent.add(questions2.get(3));
-            						 break;
-			case 'E': answerForStudent.add(questions2.get(4));
-								 break;
-			case 'e': answerForStudent.add(questions2.get(4));
-			 					break;
-			case 'Y':  return; 
-								 default:
+				if (check.equalsIgnoreCase(questions2.get(j).getDescription()))
+				((MCAnswer)questions2.get(j)).setSelected(true);
 			}
-			System.out.println("If done with MCMA question... Please Enter 1 for Yes and Please Enter 0 for No\n");
-			getA = keyboard.nextInt();
-			
 		}
-		
 	}
-	
-	public double getValue() 
-	{
-			int x = 0;
-			do
-			{
-				MCAnswer ans = (MCAnswer) answerForStudent.get(x);
-				
-				score = score + super.getValue(ans);
-				
-				x++;
-			}while(x < answerForStudent.size());
-			
-			return score + leastCredit;
-	}
-	
-	
-	public void save(PrintWriter writeInFile) 
-	{
-		super.save(writeInFile); //from the parents
-		
-		writeInFile.print("\n");
-		
-		writeInFile.print(leastCredit);
-		
-		writeInFile.print("\n");
-		
-		writeInFile.print(ansoftheirNum);
-		
-		
-		for(int i = 0; i < questions2.size(); i++) 
-		{
-			questions2.get(i).save(writeInFile); //check through the whole loop and write in 
-		}
-		
-		writeInFile.print("\n");
 
+	//DONE: Clone method
+	public Question clone() {
+		return new MCMAQuestion(this);
 	}
-	
-	public void saveStudentAnswer(PrintWriter writeInFile)  //save the student ans
-	{
-		for(int i = 0; i < answerForStudent.size(); i++)
+
+	//DONE: getAnswerFromStudent()
+	public void getAnswerFromStudent() {
+		boolean done = false;
+		Scanner input = ScannerFactory.getKeyboardScanner();
+		System.out.print("Please choose your answer: ");
+		char choice = input.next().charAt(0);
+		input.nextLine();
+		char cont;
+		while (done == false)
 		{
-			writeInFile.print("\n");
-			
-			answerForStudent.get(i).save(writeInFile);
-			writeInFile.print("\n");
+			if (choice >= 'A' && choice <= 'Z' && ((int)choice - 65) < questions2.size() && ((int)choice - 65) >= 0)
+			{
+				if (((MCAnswer)questions2.get((int)choice - 65)).getSelected())
+					((MCAnswer)questions2.get((int)choice - 65)).setSelected(false);
+				else
+					((MCAnswer)questions2.get((int)choice - 65)).setSelected(true);
+			}
+			else if (choice >= 'a' && choice <= 'z' && ((int)choice - 97) < questions2.size() && ((int)choice - 97) >= 0)
+			{
+				if (((MCAnswer)questions2.get((int)choice - 97)).getSelected())
+					((MCAnswer)questions2.get((int)choice - 97)).setSelected(false);
+				else
+					((MCAnswer)questions2.get((int)choice - 97)).setSelected(true);
+			}
+			else
+			{
+				System.out.print("Invalid choice made, please make a valid choice:");
+				choice = input.next().charAt(0);
+			}
+			System.out.print("Would you like to choose an additional answer?(Y/N):");
+			cont = input.next().charAt(0);
+			if (cont == 'n' || cont == 'N')
+				done = true;
+			else
+			{
+				System.out.print("Please choose your answer: ");
+				choice = input.next().charAt(0);
+			}
+			input.nextLine();
 		}
-	
-		
-	
+		System.out.print("Your answers are: ");
+		for(int i = 0; i < questions2.size(); i++)
+			if (((MCAnswer)questions2.get(i)).getSelected())
+			{
+				questions2.get(i).print();
+			}
+				
+	}
+
+	public double getValue() {
+		double total = base;
+		for (int i = 0; i < questions2.size(); i++)
+			if (((MCAnswer)questions2.get(i)).getSelected())
+				total = total + questions2.get(i).getValue();
+		return total * maxValue;
 	}
 
 }
