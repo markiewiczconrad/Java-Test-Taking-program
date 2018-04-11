@@ -3,7 +3,6 @@
  *  CS Account: ktrivedi
  * Net Id: ktrive4
  * Assignment: Fourth Homework Assignment
- * Group Members: Conrad Markiewicz & Jay Patel
  * UIN: 660657541
  */
 
@@ -21,24 +20,24 @@ public class ExamBuilder
 {	
 	public static void main(String[] args) throws FileNotFoundException
 	{
-		File forExam = new File("makeExam.txt");
+		File forExam = new File("makeExam.txt"); //Use file to locate the exam
 		try
 		{
-			forExam.createNewFile();
+			forExam.createNewFile(); // create an exam
 		}
 		catch (java.io.IOException e)
 		{
-			e.printStackTrace();
+			e.printStackTrace(); //throw if anything garbage comes in
 			return;
 		}
-		Scanner fe = new Scanner(forExam);
-		Exam exambuild = new Exam("Software");
+		Scanner fe = new Scanner(forExam); //scan the exam
+		Exam exambuild = new Exam("Software"); //initialize the exam
 		
 		
-		boolean done = false;
-		while(!done)
+		boolean done = false; //set it to false first
+		while(!done) //this will run until its not done
 		{
-			System.out.println("Welcome to the Exambuilder\n");
+			System.out.println("Welcome to the Exambuilder\n"); //the next few lines are to prompt users for its appropriate choices
 			
 			System.out.println("1.Load");
 			
@@ -54,19 +53,19 @@ public class ExamBuilder
 			
 			System.out.println("7.Quit");
 			
-			Scanner s = ScannerFactory.getKeyboardScanner();
-			char choice = s.next().charAt(0);
+			Scanner s = ScannerFactory.getKeyboardScanner(); // Scan
+			char choice = s.next().charAt(0); //char
 			
-			switch(choice)
+			switch(choice)//for the choices
 			{
-				case '1': File f = new File("ExamDataFile.txt");
+				case '1': File f = new File("ExamDataFile.txt"); //file the .txt
 				try
 				{
-					f.createNewFile();
+					f.createNewFile(); //create it
 				}
 				catch (java.io.IOException e)
 				{
-					e.printStackTrace();
+					e.printStackTrace(); 
 					return;
 				}
 				
@@ -74,11 +73,11 @@ public class ExamBuilder
 				
 				try 
 				{
-					s1 = new Scanner(f);
+					s1 = new Scanner(f); //new scanner
 				
 					exambuild = new Exam(s1);
 					
-					exambuild.print();
+					exambuild.print(); //print the exam with loading it from file
 					  
 				} 
 				catch (FileNotFoundException e) 
@@ -90,15 +89,15 @@ public class ExamBuilder
 						  
 						  
 						break;
-				case '2': System.out.println("\nThe types of Questions there are is:");
+				case '2': System.out.println("\nThe types of Questions there are is:"); //For the users to add questions
 						  System.out.println("1.SAQuestion");
 						  System.out.println("2.MCSAQuestion");
 						  System.out.println("3.MCMAQuestion");
 						  System.out.println("4.NumQuestion");
 						  
-						  Scanner user = new Scanner(System.in);
-						  String u = user.nextLine();
-						  int input = Integer.parseInt(u);
+						  Scanner user = new Scanner(System.in); //user input
+						  String u = user.nextLine(); //for the string
+						  int input = Integer.parseInt(u); //to convert strung to integer
 						  
 						  
 						  switch(input)
@@ -106,15 +105,15 @@ public class ExamBuilder
 							  case 1:
 								  
 								  System.out.println("1.SAQuestion");
-								  Scanner s2 = new Scanner(System.in);;
-								  String saques = s2.nextLine();
-								  Double d = s2.nextDouble();
+								  Scanner s2 = new Scanner(System.in); //User input
+								  String saques = s2.nextLine(); //scanner to string
+								  Double d = s2.nextDouble(); //scanner to double
 								  s2.nextLine();
 								  String a = s2.nextLine();
-								  SAQuestion qa=new SAQuestion(saques, d);
+								  SAQuestion qa=new SAQuestion(saques, d); //convert the string to type of questions
 								  SAAnswer saa = new SAAnswer(a);
-								  qa.setRightAnswers(saa);
-								  exambuild.addQuestion(qa);
+								  qa.setRightAnswers(saa); //set the right answer
+								  exambuild.addQuestion(qa); //add the question
 								  break;
 				
 								  
@@ -123,28 +122,28 @@ public class ExamBuilder
 							  case 2:
 								  
 								  System.out.println("2.MCSAQuestion");
-								  Scanner s3 = new Scanner(System.in);
-								  String mcsaques = s3.nextLine();
-								  Double d1 = s3.nextDouble();
+								  Scanner s3 = new Scanner(System.in); //User input
+								  String mcsaques = s3.nextLine(); //from scanner to string
+								  Double d1 = s3.nextDouble(); //scanner to double
 								  s3.nextLine();
-								  MCSAQuestion qb=new MCSAQuestion(mcsaques, d1);
-								  boolean done2 = false;
+								  MCSAQuestion qb=new MCSAQuestion(mcsaques, d1); //for the type of question 
+								  boolean done2 = false; //set to false first
 								  while (done2 == false)
 								  {
-									  String mcsa = s3.nextLine();
-									  Double d2 = s3.nextDouble();
+									  String mcsa = s3.nextLine(); //string from scanner
+									  Double d2 = s3.nextDouble(); //double from scanner
 									  s3.nextLine();
-									  MCSAAnswer mcsaa = new MCSAAnswer(mcsa, d2);
-									  qb.addAnswer(mcsaa);
-									  char another = s3.nextLine().charAt(0);
-									  if (another == 'N' || another == 'n') done2 = true;
+									  MCSAAnswer mcsaa = new MCSAAnswer(mcsa, d2); //type of question
+									  qb.addAnswer(mcsaa); //to add the answer
+									  char another = s3.nextLine().charAt(0); // for the char
+									  if (another == 'N' || another == 'n') done2 = true;  //for if the user says n for n then will exit it
 								  }
-								  exambuild.addQuestion(qb);
+								  exambuild.addQuestion(qb); //add the questions
 								  break;
 								  
 							  case 3:  
 								  
-								  System.out.println("3.MCMAQuestion");
+								  System.out.println("3.MCMAQuestion"); //does the exact same as above
 								  Scanner s4 = new Scanner(System.in);
 								  String mcmaques = s4.nextLine();
 								  Double d2 = s4.nextDouble();
@@ -168,7 +167,7 @@ public class ExamBuilder
 							
 								  
 							  case 4:  
-								  System.out.println("4.NumQuestion");
+								  System.out.println("4.NumQuestion"); //does same as for SAQuestion
 								  Scanner s5 = new Scanner(System.in);
 								  String numques = s5.nextLine();
 								  Double d5 = s5.nextDouble();
@@ -189,32 +188,32 @@ public class ExamBuilder
 						break;
 				case '3': System.out.println("Which questions would you like to remove? Enter -999 to stop");
 						  
-						  Scanner q = new Scanner(System.in);
+						  Scanner q = new Scanner(System.in); //User input
 						  
-						  int ik = q.nextInt();
+						  int ik = q.nextInt(); //for the int
 						  q.nextLine();
-						  if (ik == -999) break;
+						  if (ik == -999) break; //if its -999 then will break it
 						  
-						  exambuild.removeQuestion(ik - 1);
+						  exambuild.removeQuestion(ik - 1); //it will remove questions
 						 
 						break;
-				case '4': exambuild.reorderQuestions();
+				case '4': exambuild.reorderQuestions(); //this will reorder the questions
 						  
-						  exambuild.reorderMCAnswers(5);
+						  exambuild.reorderMCAnswers(5); //this will reorder the answers
 						  
 						break;
-				case '5': exambuild.print();
+				case '5': exambuild.print(); //print the exam
 						
 						  break;
 				case	 '6': 
-						  PrintWriter p = new PrintWriter("makeExam.txt");
+						  PrintWriter p = new PrintWriter("makeExam.txt"); //for the print write in the file
 					      
-						  exambuild.save(p);
-						  p.close();
+						  exambuild.save(p); //save the file
+						  p.close(); //then close it
 						
 						  break;
 				case 'Q':
-				case '7': done = true;		  
+				case '7': done = true;		   //it will exit if the user says quit
 				          break;
 			}
 			
