@@ -1,11 +1,18 @@
 Conrad Markiewicz
 CS342
-HW #3
+HW #4
+Group members: Kashyapkumar Trivedi & Jay Patel
+
+Division of labor is as follows:
+- I was responsible for division 1 as outlined in the assignment writeup as well as the ExamTaker class.
+- Kashyapkumar was responsible for division 2, as well as the ExamBuilder class.
+- Jay was responsible for division 3 and the ExamGrader class.
+- As of this writing, Jay Patel was unable to complete his portion of the HW and the classes are a mixture of mine and Kashyapkumar's.
 
 To use the program:
 -Extract the contents of the zip file into an empty directory.
--Type "make" into the command line and hit enter.
--Type "java ExamTester" into the command line and hit enter.
+-Type "make ExamTaker" into the command line and hit enter.
+-Type "java ExamTaker" into the command line and hit enter.
 
 The Exam taker will prompt the user for a file name for the exam file, ask the user to choose which questions to answer, provide answers and ask the user for the location of the answer file.  You can provide a full path to the file.
 If no path is provided, the file will be saved to the root directory of the directory the classes are located.
