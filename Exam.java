@@ -2,12 +2,13 @@
  * Name: Kashyapkumar Trivedi
  *  CS Account: ktrivedi
  * Net Id: ktrive4
- * Assignment: Third Homework Assignment
+ * Assignment: Fourth Homework Assignment
  * UIN: 660657541
  */
 
 
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Random;
 
@@ -30,11 +31,13 @@ public class Exam
 	Exam(String exam) //Private constructor that sets the string
 	{
 		this.text = exam; //This initialize it
-	
+		
 		reportQuestionTotal = 0; //Make it equal to 0 
 		
 		examTotal = 0; //Set this to 0 
 	}
+	
+	
 	
 	Exam(Scanner EDF)
 	{
@@ -68,6 +71,11 @@ public class Exam
 	public void addQuestion(Question question) //this will add the questions
 	{
 		questions1.add(question); //This adds the questions in the array list
+	}
+	
+	public void removeQuestion(int question)
+	{
+		questions1.remove(question);
 	}
 	
 	
@@ -172,9 +180,12 @@ public class Exam
 	}
 	public void save(PrintWriter writeInFile) 
 	{
+		
 		int i;
 		
 		writeInFile.print(printExam + "\n\n");
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		writeInFile.print(timeStamp);
 		
 		i = 0;
 		
@@ -208,7 +219,7 @@ public class Exam
 		}
 	}
 	
-	public void saveStudentAnswer(PrintWriter writeInFile)
+	public void saveStudentAnswers(PrintWriter writeInFile)
 	{
 		
 		String userName;
@@ -221,6 +232,12 @@ public class Exam
 		
 		writeInFile.print(userName);
 		writeInFile.print("\n\n");
+		
+		writeInFile.println(text);
+		
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
+		writeInFile.print(timeStamp);
+		
 		int i = 0;
 		do
 		{
@@ -228,7 +245,7 @@ public class Exam
 			{
 				writeInFile.print("SAQuestion");
 				writeInFile.print("\n");
-				questions1.get(i).saveStudentAnswer(writeInFile);
+				questions1.get(i).saveStudentAnswers(writeInFile);
 				
 			
 			}
@@ -237,7 +254,7 @@ public class Exam
 			{
 				writeInFile.print("MCSAQuestion");
 				writeInFile.print("\n");
-				questions1.get(i).saveStudentAnswer(writeInFile);
+				questions1.get(i).saveStudentAnswers(writeInFile);
 				
 				
 			}
@@ -246,7 +263,7 @@ public class Exam
 			{
 				writeInFile.print("MCMAQuestion");
 				writeInFile.print("\n");
-				questions1.get(i).saveStudentAnswer(writeInFile);			
+				questions1.get(i).saveStudentAnswers(writeInFile);			
 			}
 			i++;
 		}while(i < questions1.size());

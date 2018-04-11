@@ -2,7 +2,7 @@
  * Name: Kashyapkumar Trivedi
  *  CS Account: ktrivedi
  * Net Id: ktrive4
- * Assignment: Third Homework Assignment
+ * Assignment: Fourth Homework Assignment
  * UIN: 660657541
  */
 
@@ -28,6 +28,7 @@ public  abstract class Question
 	{
 		this.text = message; //Sets the string
 		this.fordouble = maxValue; //Sets the double
+		
 	}
 	
 	public Question(Scanner quesFile)
@@ -61,11 +62,11 @@ public  abstract class Question
 	public abstract double getValue(); //Abstract since method gets implemented in the sub tree
 	public abstract void save(PrintWriter writeInFile);
 	
-	public void saveStudentAnswer(PrintWriter writeInFile)
+	public void saveStudentAnswers(PrintWriter writeInFile)
 	{
 		studentAnswer.save(writeInFile);
 	}
-	public void restoreStudentAnswer(Scanner fileScan) 
+	public void restoreStudentAnswers(Scanner fileScan) 
 	{
 		
 	}
