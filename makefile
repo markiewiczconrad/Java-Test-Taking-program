@@ -29,8 +29,8 @@ Exam.class : Exam.java Question.class MCQuestion.class MCSAQuestion.class MCMAQu
 ScannerFactory.class : ScannerFactory.java
 		javac ScannerFactory.java
 ExamBuilder.class : ExamBuilder.java Exam.class Question.class MCQuestion.class MCSAQuestion.class MCMAQuestion.class SAQuestion.class Answer.class MCAnswer.class MCSAAnswer.class MCMAAnswer.class SAAnswer.class ScannerFactory.class
-		javac ExamTester.java
+		javac ExamBuilder.java
 ExamTaker.class : ExamTaker.java Exam.class Question.class MCQuestion.class MCSAQuestion.class MCMAQuestion.class SAQuestion.class Answer.class MCAnswer.class MCSAAnswer.class MCMAAnswer.class SAAnswer.class ScannerFactory.class
-		javac ExamTester.java
+		javac ExamTaker.java
 clean:
 		rm *.class
