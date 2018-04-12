@@ -106,10 +106,13 @@ public class ExamBuilder
 							  case 1:
 								  
 								  System.out.println("1.SAQuestion");
-								  Scanner s2 = new Scanner(System.in);;
+								  Scanner s2 = new Scanner(System.in);
+								  System.out.println("Please enter the question text: ");
 								  String saques = s2.nextLine();
+								  System.out.println("Please enter the question value: ");
 								  Double d = s2.nextDouble();
 								  s2.nextLine();
+								  System.out.println("Please enter the correct answer: ");
 								  String a = s2.nextLine();
 								  SAQuestion qa=new SAQuestion(saques, d);
 								  SAAnswer saa = new SAAnswer(a);
@@ -124,18 +127,23 @@ public class ExamBuilder
 								  
 								  System.out.println("2.MCSAQuestion");
 								  Scanner s3 = new Scanner(System.in);
+								  System.out.println("Please enter the question text: ");
 								  String mcsaques = s3.nextLine();
+								  System.out.println("Please enter the question value: ");
 								  Double d1 = s3.nextDouble();
 								  s3.nextLine();
 								  MCSAQuestion qb=new MCSAQuestion(mcsaques, d1);
 								  boolean done2 = false;
 								  while (done2 == false)
 								  {
+									  System.out.println("Please enter a possible answer: ");
 									  String mcsa = s3.nextLine();
+									  System.out.println("Please enter its value: ");
 									  Double d2 = s3.nextDouble();
 									  s3.nextLine();
 									  MCSAAnswer mcsaa = new MCSAAnswer(mcsa, d2);
 									  qb.addAnswer(mcsaa);
+									  System.out.println("Add another choice? ");
 									  char another = s3.nextLine().charAt(0);
 									  if (another == 'N' || another == 'n') done2 = true;
 								  }
@@ -146,20 +154,26 @@ public class ExamBuilder
 								  
 								  System.out.println("3.MCMAQuestion");
 								  Scanner s4 = new Scanner(System.in);
+								  System.out.println("Please enter the question text: ");
 								  String mcmaques = s4.nextLine();
+								  System.out.println("Please enter the question value: ");
 								  Double d2 = s4.nextDouble();
 								  s4.nextLine();
+								  System.out.println("Please enter the question base value: ");
 								  Double d3 = s4.nextDouble();
 								  s4.nextLine();
 								  MCMAQuestion qc=new MCMAQuestion(mcmaques, d2, d3);
 								  boolean done3 = false;
 								  while (done3 == false)
 								  {
+									  System.out.println("Please enter the answer text: ");
 									  String mcma = s4.nextLine();
+									  System.out.println("Please enter the answer value: ");
 									  Double d4 = s4.nextDouble();
 									  s4.nextLine();
 									  MCMAAnswer mcmaa = new MCMAAnswer(mcma, d4);
 									  qc.addAnswer(mcmaa);
+									  System.out.println("Add another answer? ");
 									  char another2 = s4.nextLine().charAt(0);
 									  if (another2 == 'N' || another2 == 'n') done3 = true;
 								  }
@@ -170,12 +184,16 @@ public class ExamBuilder
 							  case 4:  
 								  System.out.println("4.NumQuestion");
 								  Scanner s5 = new Scanner(System.in);
+								  System.out.println("Please enter the question text: ");
 								  String numques = s5.nextLine();
+								  System.out.println("Please enter the question value: ");
 								  Double d5 = s5.nextDouble();
 								  s5.nextLine();
+								  System.out.println("Please enter the tolerance: ");
 								  Double d6 = s5.nextDouble();
 								  s5.nextLine();
 								  NumQuestion qd=new NumQuestion(numques, d5, d6);
+								  System.out.println("Please enter the right answer: ");
 								  Double s7 = s5.nextDouble();
 								  s5.nextLine();
 								  NumAnswer numa = new NumAnswer(s7);
@@ -200,7 +218,7 @@ public class ExamBuilder
 						break;
 				case '4': exambuild.reorderQuestions();
 						  
-						  exambuild.reorderMCAnswers(5);
+						  exambuild.reorderMCAnswers(-1);
 						  
 						break;
 				case '5': exambuild.print();

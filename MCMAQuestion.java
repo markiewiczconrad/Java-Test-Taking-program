@@ -181,5 +181,8 @@ public class MCMAQuestion extends MCQuestion {
 				total = total + questions2.get(i).getValue();
 		return total * maxValue;
 	}
-
+	public void setRightAnswers(Answer correct)
+	{
+		rightAnswer = new MCMAAnswer((MCMAAnswer)correct);
+	}
 }

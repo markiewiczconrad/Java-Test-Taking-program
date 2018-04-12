@@ -108,4 +108,8 @@ public class SAQuestion extends Question{
 	{
 		studentAnswer = new SAAnswer(input.nextLine());
 	}
+	public void setRightAnswers(Answer correct)
+	{
+		rightAnswer = new SAAnswer((SAAnswer)correct);
+	}
 }

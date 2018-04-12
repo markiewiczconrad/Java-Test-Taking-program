@@ -150,4 +150,8 @@ public class MCSAQuestion extends MCQuestion{
 		output.println(studentAnswer.getDescription());
 		output.println();
 	}
+	public void setRightAnswers(Answer correct)
+	{
+		rightAnswer = new MCSAAnswer((MCSAAnswer)correct);
+	}
 }
