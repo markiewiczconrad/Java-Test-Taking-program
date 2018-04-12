@@ -114,4 +114,8 @@ public class NumQuestion extends Question{
 			System.out.println("None");
 		}
 	}
+	public void setRightAnswers(Answer correct)
+	{
+		rightAnswer = new NumAnswer((NumAnswer)correct);
+	}
 }
