@@ -15,7 +15,7 @@ To use the program:
 -Type "java ExamTaker" into the command line and hit enter.
 
 The Exam taker will prompt the user for a file name for the exam file, ask the user to choose which questions to answer, provide answers and ask the user for the location of the answer file.  You can provide a full path to the file.
-If no path is provided, the file will be saved to the root directory of the directory the classes are located.
+If no path is provided, the file will be saved to the parent directory of the directory the classes are located.
 
 Please see below for a rundown of each class as well as their attributes & methods:
 ExamTaker - The driver program for this assignment.  As outlined above, will generate an exam from a source file and ask you to answer the questions.
