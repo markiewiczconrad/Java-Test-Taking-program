@@ -1,4 +1,4 @@
-.DEFAULT_GOAL := ExamTester.class
+.DEFAULT_GOAL := ExamBuilder.class
 JC = javac
 Answer.class : Answer.java
 		javac Answer.java
